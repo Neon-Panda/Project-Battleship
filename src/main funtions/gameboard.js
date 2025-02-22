@@ -31,26 +31,58 @@ export class Gameboard {
     return this.#board;
   }
 
-  placeShip(ship, row, column, direction = "horizontal") {
-    const seletectedShip = this.#boardShips.find(
-      (element) => element.name === ship
-    );
-    const shipLength = seletectedShip.shipObj.getLength();
+  placementValid(shipObj, row, column, direction = "horizontal") {
+    let avalible = true;
+    for (let i = 0; i < shipObj.getLength(); i++) {
+      if (this.#board[row][column].shipPrecent === null) {
+        continue;
+      } else {
+        avalible = false;
+      }
+    }
+    return avalible;
+  }
+
+  correctRowColumn(shipLength, row, column, direction) {
     if (direction === "horizontal" && shipLength + column > 10) {
       column -= (shipLength + column) % 10;
+      return { direction: "horizontal", value: column };
     } else if (direction === "vertical" && shipLength + row > 10) {
       row -= (shipLength + row) % 10;
+      return { direction: "vertical", value: row };
     }
-    for (let i = 0; i < shipLength; i++) {
-      if (
-        seletectedShip.avalible &&
-        this.#board[row][column].shipPrecent === null
-      ) {
+  }
+
+  placeShip(shipName, row, column, direction = "horizontal") {
+    const seletectedShip = this.#boardShips.find(
+      (element) => element.name === shipName
+    );
+    const shipLength = seletectedShip.shipObj.getLength();
+    const correctPlacement = this.correctRowColumn(
+      shipLength,
+      row,
+      column,
+      direction
+    );
+
+    correctPlacement.direction === "horizontal"
+      ? (column = correctPlacement.value)
+      : (row = correctPlacement.value);
+
+    const placementValid = this.placementValid(
+      seletectedShip.shipObj,
+      row,
+      column,
+      direction
+    );
+    console.log(placementValid);
+    if (placementValid) {
+      for (let i = 0; i < shipLength; i++) {
         this.#board[row][column].shipPrecent = seletectedShip.shipObj;
+        direction === "horizontal" ? column++ : row++;
       }
-      direction === "horizontal" ? column++ : row++;
+      seletectedShip.avalible = false;
     }
-    seletectedShip.avalible = false;
   }
 
   recieveAttack(row, column) {

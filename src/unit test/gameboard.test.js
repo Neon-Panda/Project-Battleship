@@ -17,6 +17,10 @@ describe("Gameboard class test", () => {
     expect(exampleGameboard.getBoard()[9][9]).toStrictEqual(exampleGameCellObj);
   });
 
+  test("should check if gamecells are avalible for ship placement", () => {
+    exampleGameboard.placementValid("BattleShip", 0, 0).toBe(false);
+  });
+
   test("should place ship in gameboard in correct coordinates", () => {
     exampleGameboard.placeShip("Carrier", 0, 0);
     let firstGameCell = exampleGameboard.getBoard()[0][0];
