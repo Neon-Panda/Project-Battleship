@@ -38,8 +38,7 @@ export class Gameboard {
     const shipLength = seletectedShip.shipObj.getLength();
     if (direction === "horizontal" && shipLength + column > 10) {
       column -= (shipLength + column) % 10;
-    }
-    if (direction === "vertial" && shipLength + row > 10) {
+    } else if (direction === "vertical" && shipLength + row > 10) {
       row -= (shipLength + row) % 10;
     }
     for (let i = 0; i < shipLength; i++) {
@@ -48,10 +47,10 @@ export class Gameboard {
         this.#board[row][column].shipPrecent === null
       ) {
         this.#board[row][column].shipPrecent = seletectedShip.shipObj;
-        this.#boardShips.avalible = false;
-        column++;
       }
+      direction === "horizontal" ? column++ : row++;
     }
+    seletectedShip.avalible = false;
   }
 
   recieveAttack(row, column) {
@@ -61,5 +60,5 @@ export class Gameboard {
 
 const testBoard = new Gameboard();
 testBoard.createBoard();
-console.log(testBoard.placeShip("Carrier", 9, 9));
+testBoard.placeShip("Carrier", 9, 9);
 console.log(testBoard.getBoard());
