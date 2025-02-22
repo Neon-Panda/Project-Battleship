@@ -18,9 +18,9 @@ describe("Gameboard class test", () => {
   });
 
   test("should place ship in gameboard in correct coordinates", () => {
-    exampleGameboard.placeShip(0, 0);
+    exampleGameboard.placeShip("Carrier", 0, 0);
     let firstGameCell = exampleGameboard.getBoard()[0][0];
-    expect(firstGameCell.shipPrecent.getLength()).toBe(typeof Object);
+    expect(firstGameCell.shipPrecent).toBe(typeof Object);
   });
 
   test("gameboard should receive attack & set gamecell prototype 'isHit' to true", () => {

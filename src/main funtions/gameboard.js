@@ -3,11 +3,11 @@ import { Ship } from "../main funtions/ship.js";
 export class Gameboard {
   #board = [];
   #avaliableShips = [
-    { Carrier: 5 },
-    { Battleship: 4 },
-    { Cruiser: 3 },
-    { Submarine: 3 },
-    { Destroyer: 2 },
+    { name: "Carrier", length: 5 },
+    { name: "Battleship", length: 4 },
+    { name: "Cruiser", length: 3 },
+    { name: "Submarine", length: 3 },
+    { name: "Destroyer", length: 2 },
   ];
 
   gameCell() {
@@ -32,10 +32,22 @@ export class Gameboard {
   }
 
   placeShip(ship, row, column) {
-    if (this.#avaliableShips.includes(ship))
+    const currentShipIndex = this.#avaliableShips.findIndex(
+      (element) => element.name === ship
+    );
+    if (currentShipIndex >= 0) {
+      this.#board[row][column].shipPrecent = new Ship(
+        this.#avaliableShips[currentShipIndex].length
+      );
+      this.#avaliableShips.splice(currentShipIndex, 1);
+    }
   }
 
   recieveAttack(row, column) {
     this.#board[row][column].isHit = true;
   }
 }
+
+const testBoard = new Gameboard();
+testBoard.createBoard();
+console.log(testBoard.placeShip("Carrier", 0, 0));
