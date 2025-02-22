@@ -31,11 +31,27 @@ export class Gameboard {
     return this.#board;
   }
 
-  placeShip(ship, row, column) {
+  placeShip(ship, row, column, direction = "horizontal") {
     const seletectedShip = this.#boardShips.find(
       (element) => element.name === ship
     );
-    this.#board[row][column].shipPrecent = seletectedShip.shipObj;
+    const shipLength = seletectedShip.shipObj.getLength();
+    if (direction === "horizontal" && shipLength + column > 10) {
+      column -= (shipLength + column) % 10;
+    }
+    if (direction === "vertial" && shipLength + row > 10) {
+      row -= (shipLength + row) % 10;
+    }
+    for (let i = 0; i < shipLength; i++) {
+      if (
+        seletectedShip.avalible &&
+        this.#board[row][column].shipPrecent === null
+      ) {
+        this.#board[row][column].shipPrecent = seletectedShip.shipObj;
+        this.#boardShips.avalible = false;
+        column++;
+      }
+    }
   }
 
   recieveAttack(row, column) {
@@ -45,4 +61,5 @@ export class Gameboard {
 
 const testBoard = new Gameboard();
 testBoard.createBoard();
-console.log(testBoard.placeShip("Carrier", 0, 0));
+console.log(testBoard.placeShip("Carrier", 9, 9));
+console.log(testBoard.getBoard());
