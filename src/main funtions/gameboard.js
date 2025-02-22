@@ -31,7 +31,7 @@ export class Gameboard {
     return this.#board;
   }
 
-  placementValid(shipObj, row, column, direction = "horizontal") {
+  placementValid(shipObj, row, column, direction) {
     let avalible = true;
     for (let i = 0; i < shipObj.getLength(); i++) {
       if (this.#board[row][column].shipPrecent === null) {
@@ -39,6 +39,7 @@ export class Gameboard {
       } else {
         avalible = false;
       }
+      direction === "horizontal" ? column++ : row++;
     }
     return avalible;
   }
