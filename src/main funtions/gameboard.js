@@ -39,6 +39,7 @@ export class Gameboard {
       } else {
         avalible = false;
       }
+      direction === "horizontal" ? column++ : row++;
     }
     return avalible;
   }
