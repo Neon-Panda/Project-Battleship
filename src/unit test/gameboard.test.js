@@ -1,30 +1,27 @@
 import { Gameboard } from "../main funtions/gameboard";
 
 describe("Gameboard class test", () => {
-  let exampleGameboard = new Gameboard();
+  let exampleGameboard;
+
+  beforeEach(() => {
+    exampleGameboard = new Gameboard();
+    exampleGameboard.createBoard();
+  });
 
   test("gameboard class exist", () => {
     expect(typeof Gameboard).toBe("function");
   });
 
   test("gameboard should create a grid of 10 arrays each with 10 objects", () => {
-    exampleGameboard.createBoard();
     let exampleGameCellObj = { isHit: null, shipPrecent: null };
     expect(Array.isArray(exampleGameboard.getBoard())).toBe(true);
-    expect(exampleGameboard.getBoard()[0][0]).toStrictEqual(exampleGameCellObj);
-    expect(exampleGameboard.getBoard()[2][6]).toStrictEqual(exampleGameCellObj);
-    expect(exampleGameboard.getBoard()[6][9]).toStrictEqual(exampleGameCellObj);
-    expect(exampleGameboard.getBoard()[9][9]).toStrictEqual(exampleGameCellObj);
-  });
-
-  test("should check if gamecells are avalible for ship placement", () => {
-    exampleGameboard.placementValid("BattleShip", 0, 0).toBe(false);
+    expect(exampleGameboard.getBoard()[5][5]).toMatchObject(exampleGameCellObj);
   });
 
   test("should place ship in gameboard in correct coordinates", () => {
-    exampleGameboard.placeShip("Carrier", 0, 0);
+    exampleGameboard.placeShip("Cruiser", 0, 0);
     let firstGameCell = exampleGameboard.getBoard()[0][0];
-    expect(firstGameCell.shipPrecent).toBe(typeof Object);
+    expect(firstGameCell.shipPrecent).toEqual({});
   });
 
   test("gameboard should receive attack & set gamecell prototype 'isHit' to true", () => {

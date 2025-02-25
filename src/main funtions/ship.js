@@ -24,7 +24,7 @@ export class Ship {
     this.#hits++;
   }
 
-  checkIfSunk() {
+  checkIfSunkToggle() {
     if (this.#hits >= this.#length) {
       this.#isSunk = true;
     }

@@ -24,7 +24,7 @@ describe("Ship class test", () => {
     ExampleShip.hit();
     ExampleShip.hit();
     ExampleShip.hit();
-    ExampleShip.checkIfSunk();
+    ExampleShip.checkIfSunkToggle();
     expect(ExampleShip.getIsSunk()).toBe(true);
   });
 });

@@ -51,6 +51,10 @@ export class Gameboard {
     } else if (direction === "vertical" && shipLength + row > 10) {
       row -= (shipLength + row) % 10;
       return { direction: "vertical", value: row };
+    } else {
+      return direction === "horizontal"
+        ? { direction: "horizontal", value: row }
+        : { direction: "vertical", value: row };
     }
   }
 
@@ -65,7 +69,6 @@ export class Gameboard {
       column,
       direction
     );
-
     correctPlacement.direction === "horizontal"
       ? (column = correctPlacement.value)
       : (row = correctPlacement.value);
@@ -76,7 +79,6 @@ export class Gameboard {
       column,
       direction
     );
-    console.log(placementValid);
     if (placementValid) {
       for (let i = 0; i < shipLength; i++) {
         this.#board[row][column].shipPrecent = seletectedShip.shipObj;
@@ -94,4 +96,4 @@ export class Gameboard {
 const testBoard = new Gameboard();
 testBoard.createBoard();
 testBoard.placeShip("Carrier", 9, 9);
-console.log(testBoard.getBoard());
+// console.log(testBoard.getBoard());
