@@ -73,8 +73,6 @@ describe("Gameboard class test", () => {
     for (let i = 0; i < 2; i++) {
       exampleGameboard.recieveAttack(4, 0);
     }
-    console.log(exampleGameboard.getBoard()[0][0].shipPrecent.getIsSunk());
-    console.log(exampleGameboard.getBoard()[1][0].shipPrecent);
     expect(exampleGameboard.checkIfAllSunk()).toBe(true);
   });
 });
