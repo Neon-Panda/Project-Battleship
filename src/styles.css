@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 /* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
@@ -69,43 +70,87 @@ h6 {
 
 body {
   background-color: darkgray;
+  font-family: Quantico;
+  background:
+    url("https://cdn.pixabay.com/photo/2022/09/14/07/42/map-7453623_1280.png"),
+    radial-gradient(circle, #6c99fd, #818dea, #8e81d7, #9576c3, #986caf);
+  background-size: cover;
+  background-position: 5% 5%;
 }
 
-.player-one {
+.title {
+  display: flex;
+  justify-content: center;
+  font-size: 3rem;
+  padding-bottom: 1rem;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.player {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 0 5rem;
+  gap: 1rem;
 }
 
-.player-one-content {
+.player-header {
+  display: flex;
+  justify-content: center;
+  grid-column: 1 / 3;
+  font-size: 1.2rem;
+  gap: 0.2rem;
+  padding-bottom: 0.5rem;
+}
+
+.input-label {
+  align-self: center;
+  backdrop-filter: blur(5px);
+}
+
+.input-name {
+  background-color: inherit;
+  background-color: hsla(0, 0%, 95%, 0.5);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 1rem;
+}
+
+.player-content {
   display: grid;
   grid-template-columns: 3rem auto;
   grid-template-rows: 3rem auto;
-  width: 50vw;
+  width: 30vw;
+  height: 30vw;
+  background-color: hsla(0, 0%, 33%, 0.342);
+  backdrop-filter: blur(3px);
+  border-radius: 1rem;
 }
 
-.player-one-columns {
+.player-columns {
   grid-column: 2 / 3;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.player-one-rows {
+.player-rows {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
 
-.player-one-grid {
+.player-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
 }
 
-.test {
+.grid-cell {
   display: grid;
   place-items: center;
   height: 3rem;
