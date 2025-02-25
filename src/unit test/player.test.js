@@ -1,14 +1,18 @@
-import { Gameboard } from "../main funtions/gameboard";
+import { Player } from "../main funtions/player";
 
-export class Player {
-  #playerType;
-  #playerName;
-  #playerGameBoard;
+describe("Player class test", () => {
+  let examplePlayerOne;
 
-  constructor(type, name) {
-    this.#playerType = type;
-    this.#playerName = name;
-    this.#playerGameBoard = new Gameboard();
-    this.#playerGameBoard.createBoard();
-  }
-}
+  beforeEach(() => {
+    examplePlayerOne = new Player("Human", "John");
+  });
+
+  test("Player class creates a board for the player", () => {
+    expect(examplePlayerOne.getPlayerBoard()).toEqual({});
+  });
+
+  test("Player class has name and 'type'", () => {
+    expect(examplePlayerOne.getName()).toBe("John");
+    expect(examplePlayerOne.getType()).toBe("Human");
+  });
+});
