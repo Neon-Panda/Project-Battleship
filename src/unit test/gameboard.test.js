@@ -52,10 +52,29 @@ describe("Gameboard class test", () => {
   });
 
   test("if all ships have been sunk the board should know", () => {
-    exampleGameboard.placeShip("Cruiser", 0, 0);
+    exampleGameboard.placeShip("Carrier", 0, 0);
     exampleGameboard.placeShip("Battleship", 1, 0);
     exampleGameboard.placeShip("Cruiser", 2, 0);
     exampleGameboard.placeShip("Submarine", 3, 0);
     exampleGameboard.placeShip("Destroyer", 4, 0);
+
+    for (let i = 0; i < 5; i++) {
+      exampleGameboard.recieveAttack(0, 0);
+    }
+    for (let i = 0; i < 4; i++) {
+      exampleGameboard.recieveAttack(1, 0);
+    }
+    for (let i = 0; i < 3; i++) {
+      exampleGameboard.recieveAttack(2, 0);
+    }
+    for (let i = 0; i < 3; i++) {
+      exampleGameboard.recieveAttack(3, 0);
+    }
+    for (let i = 0; i < 2; i++) {
+      exampleGameboard.recieveAttack(4, 0);
+    }
+    console.log(exampleGameboard.getBoard()[0][0].shipPrecent.getIsSunk());
+    console.log(exampleGameboard.getBoard()[1][0].shipPrecent);
+    expect(exampleGameboard.checkIfAllSunk()).toBe(true);
   });
 });

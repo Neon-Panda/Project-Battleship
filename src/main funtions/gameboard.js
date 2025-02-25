@@ -3,26 +3,11 @@ import { Ship } from "../main funtions/ship.js";
 export class Gameboard {
   #board = [];
   #boardShips = [
-    { name: "Carrier", avalible: true, shipSunk: false, shipObj: new Ship(5) },
-    {
-      name: "Battleship",
-      avalible: true,
-      shipSunk: false,
-      shipObj: new Ship(4),
-    },
-    { name: "Cruiser", avalible: true, shipSunk: false, shipObj: new Ship(3) },
-    {
-      name: "Submarine",
-      avalible: true,
-      shipSunk: false,
-      shipObj: new Ship(3),
-    },
-    {
-      name: "Destroyer",
-      avalible: true,
-      shipSunk: false,
-      shipObj: new Ship(2),
-    },
+    { name: "Carrier", avalible: true, shipObj: new Ship(5) },
+    { name: "Battleship", avalible: true, shipObj: new Ship(4) },
+    { name: "Cruiser", avalible: true, shipObj: new Ship(3) },
+    { name: "Submarine", avalible: true, shipObj: new Ship(3) },
+    { name: "Destroyer", avalible: true, shipObj: new Ship(2) },
   ];
 
   gameCell() {
@@ -68,7 +53,7 @@ export class Gameboard {
       return { direction: "vertical", value: row };
     } else {
       return direction === "horizontal"
-        ? { direction: "horizontal", value: row }
+        ? { direction: "horizontal", value: column }
         : { direction: "vertical", value: row };
     }
   }
@@ -87,7 +72,6 @@ export class Gameboard {
     correctPlacement.direction === "horizontal"
       ? (column = correctPlacement.value)
       : (row = correctPlacement.value);
-
     const placementValid = this.placementValid(
       seletectedShip.shipObj,
       row,
@@ -113,13 +97,9 @@ export class Gameboard {
 
   checkIfAllSunk() {
     const allShips = this.#boardShips;
-    return allShips.every((ship) => ship.shipSunk === true);
+    return allShips.every((ship) => ship.shipObj.getIsSunk() === true);
   }
 }
 
 const testBoard = new Gameboard();
 testBoard.createBoard();
-testBoard.placeShip("Carrier", 9, 9);
-testBoard.recieveAttack(9, 9);
-console.log(testBoard.getBoard()[9][9].shipPrecent.getHits());
-console.log(testBoard.checkIfAllSunk());
