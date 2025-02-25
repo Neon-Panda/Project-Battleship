@@ -72,6 +72,7 @@ export class Gameboard {
     correctPlacement.direction === "horizontal"
       ? (column = correctPlacement.value)
       : (row = correctPlacement.value);
+    console.log(column);
     const placementValid = this.placementValid(
       seletectedShip.shipObj,
       row,
@@ -103,3 +104,9 @@ export class Gameboard {
 
 const testBoard = new Gameboard();
 testBoard.createBoard();
+testBoard.placeShip("Carrier", 0, 0);
+testBoard.placeShip("Battleship", 1, 0);
+testBoard.placeShip("Cruiser", 2, 0);
+testBoard.placeShip("Submarine", 3, 0);
+testBoard.placeShip("Destroyer", 4, 0);
+console.log(testBoard.getBoard());
