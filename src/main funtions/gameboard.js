@@ -110,6 +110,11 @@ export class Gameboard {
       ship.hit();
     }
   }
+
+  checkIfAllSunk() {
+    const allShips = this.#boardShips;
+    return allShips.every((ship) => ship.shipSunk === true);
+  }
 }
 
 const testBoard = new Gameboard();
@@ -117,3 +122,4 @@ testBoard.createBoard();
 testBoard.placeShip("Carrier", 9, 9);
 testBoard.recieveAttack(9, 9);
 console.log(testBoard.getBoard()[9][9].shipPrecent.getHits());
+console.log(testBoard.checkIfAllSunk());
