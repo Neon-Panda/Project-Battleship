@@ -3,11 +3,26 @@ import { Ship } from "../main funtions/ship.js";
 export class Gameboard {
   #board = [];
   #boardShips = [
-    { name: "Carrier", avalible: true, shipObj: new Ship(5) },
-    { name: "Battleship", avalible: true, shipObj: new Ship(4) },
-    { name: "Cruiser", avalible: true, shipObj: new Ship(3) },
-    { name: "Submarine", avalible: true, shipObj: new Ship(3) },
-    { name: "Destroyer", avalible: true, shipObj: new Ship(2) },
+    { name: "Carrier", avalible: true, shipSunk: false, shipObj: new Ship(5) },
+    {
+      name: "Battleship",
+      avalible: true,
+      shipSunk: false,
+      shipObj: new Ship(4),
+    },
+    { name: "Cruiser", avalible: true, shipSunk: false, shipObj: new Ship(3) },
+    {
+      name: "Submarine",
+      avalible: true,
+      shipSunk: false,
+      shipObj: new Ship(3),
+    },
+    {
+      name: "Destroyer",
+      avalible: true,
+      shipSunk: false,
+      shipObj: new Ship(2),
+    },
   ];
 
   gameCell() {
@@ -90,10 +105,15 @@ export class Gameboard {
 
   recieveAttack(row, column) {
     this.#board[row][column].isHit = true;
+    let ship = this.#board[row][column].shipPrecent;
+    if (ship) {
+      ship.hit();
+    }
   }
 }
 
 const testBoard = new Gameboard();
 testBoard.createBoard();
 testBoard.placeShip("Carrier", 9, 9);
-// console.log(testBoard.getBoard());
+testBoard.recieveAttack(9, 9);
+console.log(testBoard.getBoard()[9][9].shipPrecent.getHits());
