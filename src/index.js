@@ -22,4 +22,4 @@ class GridDOM {
   }
 }
 
-// GridDOM.createGameCells(PlayerOne);
+GridDOM.createGameCells(PlayerOne);
