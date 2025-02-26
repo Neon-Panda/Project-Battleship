@@ -91,7 +91,7 @@ class GameDom {
             let [row, column] = event.target.dataset.coord.split("-");
             GameControl.playerOne
               .getPlayerBoard()
-              .placeShip(shipName, row, column);
+              .placeShip(shipName, parseInt(row), parseInt(column));
             GameDom.refresh();
           });
         });
