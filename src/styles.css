@@ -172,3 +172,11 @@ body {
 .player-ship {
   cursor: pointer;
 }
+
+.square-hit {
+  background-color: red;
+}
+
+.square-ship {
+  background-color: purple;
+}

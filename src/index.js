@@ -11,15 +11,16 @@ class GameDom {
     playerOneGrid.innerHTML = "";
     playerTwoGrid.innerHTML = "";
 
-    this.createGrid(playerOneBoard).forEach((square) => {
+    this.createGrid(playerOneBoard, "Human").forEach((square) => {
       playerOneGrid.append(square);
     });
-    this.createGrid(playerTwoBoard).forEach((square) => {
+    this.createGrid(playerTwoBoard, "Computer").forEach((square) => {
       playerTwoGrid.appendChild(square);
     });
+    GameDom.dragShips();
   }
 
-  static createGrid(playerBoard) {
+  static createGrid(playerBoard, player) {
     const allSquares = [];
     playerBoard.forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
@@ -27,10 +28,15 @@ class GameDom {
         squareGrid.classList.add("grid-cell");
         squareGrid.id = "grid-cell";
         squareGrid.dataset.coord = rowIndex + "-" + columnIndex;
+        if (player === "Human" && cell.shipPrecent) {
+          squareGrid.innerText = "O";
+        }
         if (cell.isHit && cell.shipPrecent) {
           squareGrid.textContent = "HIT";
+          squareGrid.classList.add("square-ship");
         } else if (cell.isHit) {
           squareGrid.textContent = "X";
+          squareGrid.classList.add("square-hit");
         }
         allSquares.push(squareGrid);
       });
@@ -86,6 +92,7 @@ class GameDom {
             GameControl.playerOne
               .getPlayerBoard()
               .placeShip(shipName, row, column);
+            GameDom.refresh();
           });
         });
       });
