@@ -41,7 +41,6 @@ class GameDom {
     const mainContent = document.querySelector("#main-content");
 
     mainContent.addEventListener("click", (event) => {
-      const player = event.target.parentElement.id;
       const dataCoord = event.target.dataset.coord;
       console.log(GameControl.toggle);
       if (dataCoord) {
@@ -53,6 +52,7 @@ class GameDom {
 
       GameDom.refresh();
       GameControl.turnToggle();
+      GameControl.checkForWin();
     });
   }
 
@@ -103,6 +103,18 @@ class GameControl {
       default:
         break;
     }
+  }
+
+  static checkForWin() {
+    const playerOneSunk = GameControl.playerOne
+      .getPlayerBoard()
+      .checkIfAllSunk();
+    const playerTwoSunk = GameControl.playerTwo
+      .getPlayerBoard()
+      .checkIfAllSunk();
+
+    if (playerOneSunk) alert("Player Two has Won!");
+    if (playerTwoSunk) alert("Player One has Won!");
   }
 
   static computerRandomPlace() {
