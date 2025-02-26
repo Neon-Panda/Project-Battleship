@@ -162,3 +162,13 @@ body {
   place-items: center;
   border: 1px solid red;
 }
+
+.ships-location {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.player-ship {
+  cursor: pointer;
+}

@@ -25,6 +25,7 @@ class GameDom {
       row.forEach((cell, columnIndex) => {
         const squareGrid = document.createElement("div");
         squareGrid.classList.add("grid-cell");
+        squareGrid.id = "grid-cell";
         squareGrid.dataset.coord = rowIndex + "-" + columnIndex;
         if (cell.isHit && cell.shipPrecent) {
           squareGrid.textContent = "HIT";
@@ -66,6 +67,30 @@ class GameDom {
     nameP.textContent = name;
     form.replaceWith(nameP);
   }
+
+  static dragShips() {
+    const ships = document.querySelectorAll("[data-ship]");
+    const playerOneGrid = document.querySelectorAll(
+      "#player-one-grid > #grid-cell"
+    );
+    for (let ship of ships) {
+      ship.addEventListener("dragstart", (event) => {
+        const shipName = event.target.id;
+        playerOneGrid.forEach((square) => {
+          square.addEventListener("dragover", (event) => {
+            event.preventDefault();
+          });
+          square.addEventListener("drop", (event) => {
+            const square = event.target.dataset.coord;
+            let [row, column] = event.target.dataset.coord.split("-");
+            GameControl.playerOne
+              .getPlayerBoard()
+              .placeShip(shipName, row, column);
+          });
+        });
+      });
+    }
+  }
 }
 
 class GameControl {
@@ -84,6 +109,7 @@ class GameControl {
       GameDom.setName(input.value);
       GameDom.refresh();
       GameDom.GridEvents();
+      GameDom.dragShips();
     });
   }
 
@@ -164,7 +190,6 @@ class GameControl {
         direction()
       );
     }
-    console.log(computerBoard.getBoard());
   }
 }
 
