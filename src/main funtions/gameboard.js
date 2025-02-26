@@ -10,6 +10,10 @@ export class Gameboard {
     { name: "Destroyer", avalible: true, shipObj: new Ship(2) },
   ];
 
+  getShips() {
+    return this.#boardShips;
+  }
+
   gameCell() {
     return {
       shipPrecent: null,
@@ -78,7 +82,7 @@ export class Gameboard {
       column,
       direction
     );
-    if (placementValid) {
+    if (placementValid && seletectedShip.avalible) {
       for (let i = 0; i < shipLength; i++) {
         this.#board[row][column].shipPrecent = seletectedShip.shipObj;
         direction === "horizontal" ? column++ : row++;

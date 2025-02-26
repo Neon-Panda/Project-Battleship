@@ -26,7 +26,9 @@ class GameDom {
         const squareGrid = document.createElement("div");
         squareGrid.classList.add("grid-cell");
         squareGrid.dataset.coord = rowIndex + "-" + columnIndex;
-        if (cell.isHit) {
+        if (cell.isHit && cell.shipPrecent) {
+          squareGrid.textContent = "HIT";
+        } else if (cell.isHit) {
           squareGrid.textContent = "X";
         }
         allSquares.push(squareGrid);
@@ -41,20 +43,16 @@ class GameDom {
     mainContent.addEventListener("click", (event) => {
       const player = event.target.parentElement.id;
       const dataCoord = event.target.dataset.coord;
-      let row, index;
-      switch (player) {
-        case "player-one-grid":
-          [row, index] = dataCoord.split("-");
-          GameControl.playerOne.getPlayerBoard().recieveAttack(row, index);
-          break;
-        case "player-two-grid":
-          [row, index] = dataCoord.split("-");
-          GameControl.playerTwo.getPlayerBoard().recieveAttack(row, index);
-          break;
-        default:
-          break;
+      console.log(GameControl.toggle);
+      if (dataCoord) {
+        let [row, column] = dataCoord.split("-");
+        GameControl.toggle
+          ? GameControl.attack("playerOne", row, column)
+          : GameControl.attack("playerTwo", row, column);
       }
+
       GameDom.refresh();
+      GameControl.turnToggle();
     });
   }
 
@@ -74,6 +72,7 @@ class GameControl {
   static playerOne;
   static playerTwo = new Player("Computer", "Robot");
   static currentTurn;
+  static toggle = false;
 
   static startGame() {
     const form = document.querySelector("#name-form");
@@ -87,8 +86,77 @@ class GameControl {
       GameDom.GridEvents();
     });
   }
+
+  static turnToggle() {
+    this.toggle = this.toggle ? false : true;
+    return this.toggle;
+  }
+
+  static attack(player, row, column) {
+    switch (player) {
+      case "playerOne":
+        GameControl.playerOne.getPlayerBoard().recieveAttack(row, column);
+        break;
+      case "playerTwo":
+        GameControl.playerTwo.getPlayerBoard().recieveAttack(row, column);
+        break;
+      default:
+        break;
+    }
+  }
+
+  static computerRandomPlace() {
+    function ZeroToNine() {
+      return Math.floor(Math.random() * 10);
+    }
+    function ZeroToOne() {
+      return Math.floor(Math.random() * 2);
+    }
+    function direction() {
+      return ZeroToOne() === 0 ? "horizontal" : "vertical";
+    }
+    const computerBoard = this.playerTwo.getPlayerBoard();
+    let shipsAvaliable;
+    while (!shipsAvaliable) {
+      shipsAvaliable = computerBoard
+        .getShips()
+        .every((ship) => ship.avalible === false);
+      computerBoard.placeShip(
+        "Carrier",
+        ZeroToNine(),
+        ZeroToNine(),
+        direction()
+      );
+      computerBoard.placeShip(
+        "Battleship",
+        ZeroToNine(),
+        ZeroToNine(),
+        direction()
+      );
+      computerBoard.placeShip(
+        "Cruiser",
+        ZeroToNine(),
+        ZeroToNine(),
+        direction()
+      );
+      computerBoard.placeShip(
+        "Submarine",
+        ZeroToNine(),
+        ZeroToNine(),
+        direction()
+      );
+      computerBoard.placeShip(
+        "Destroyer",
+        ZeroToNine(),
+        ZeroToNine(),
+        direction()
+      );
+    }
+    console.log(computerBoard.getBoard());
+  }
 }
 
 addEventListener("DOMContentLoaded", () => {
   GameControl.startGame();
+  GameControl.computerRandomPlace();
 });
