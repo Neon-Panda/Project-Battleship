@@ -163,7 +163,7 @@ body {
   border: 1px solid red;
 }
 
-.ships-location {
+.ships {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -177,6 +177,14 @@ body {
   background-color: red;
 }
 
+.ships-location {
+  display: flex;
+  flex-direction: column;
+}
+
 .square-ship {
   background-color: purple;
+}
+
+.btn-direction {
 }

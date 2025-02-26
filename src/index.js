@@ -49,10 +49,9 @@ class GameDom {
 
     mainContent.addEventListener("click", (event) => {
       const dataCoord = event.target.dataset.coord;
-      console.log(GameControl.toggle);
       if (dataCoord) {
         let [row, column] = dataCoord.split("-");
-        GameControl.toggle
+        GameControl.toggleTurn
           ? GameControl.attack("playerOne", row, column)
           : GameControl.attack("playerTwo", row, column);
       }
@@ -74,6 +73,15 @@ class GameDom {
     form.replaceWith(nameP);
   }
 
+  static directionButton() {
+    const direcitonBtn = document.querySelector("#direction-btn");
+    direcitonBtn.addEventListener("click", (event) => {
+      console.log("test");
+      GameControl.directionToggle();
+      direcitonBtn.innerText = GameControl.currentDirection;
+    });
+  }
+
   static dragShips() {
     const ships = document.querySelectorAll("[data-ship]");
     const playerOneGrid = document.querySelectorAll(
@@ -91,7 +99,12 @@ class GameDom {
             let [row, column] = event.target.dataset.coord.split("-");
             GameControl.playerOne
               .getPlayerBoard()
-              .placeShip(shipName, parseInt(row), parseInt(column));
+              .placeShip(
+                shipName,
+                parseInt(row),
+                parseInt(column),
+                GameControl.currentDirection
+              );
             GameDom.refresh();
           });
         });
@@ -103,8 +116,9 @@ class GameDom {
 class GameControl {
   static playerOne;
   static playerTwo = new Player("Computer", "Robot");
-  static currentTurn;
-  static toggle = false;
+  static toggleTurn = false;
+  static directionBolean = false;
+  static currentDirection;
 
   static startGame() {
     const form = document.querySelector("#name-form");
@@ -121,8 +135,14 @@ class GameControl {
   }
 
   static turnToggle() {
-    this.toggle = this.toggle ? false : true;
-    return this.toggle;
+    this.toggleTurn = this.toggleTurn ? false : true;
+    return this.toggleTurn;
+  }
+
+  static directionToggle() {
+    this.directionBolean = this.directionBolean ? false : true;
+    this.currentDirection =
+      this.directionBolean === false ? "Horizontal" : "Vertical";
   }
 
   static attack(player, row, column) {
@@ -203,4 +223,5 @@ class GameControl {
 addEventListener("DOMContentLoaded", () => {
   GameControl.startGame();
   GameControl.computerRandomPlace();
+  GameDom.directionButton();
 });
