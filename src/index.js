@@ -1,80 +1,94 @@
 import "./styles.css";
 import { Player } from "./main funtions/player.js";
-import { Gameboard } from "./main funtions/gameboard.js";
-import { Ship } from "./main funtions/ship.js";
 
-const PlayerOne = new Player("Human", "John");
-const PlayerTwo = new Player("Computer", "TEST");
+class GameDom {
+  static refresh() {
+    const playerOneGrid = document.querySelector("#player-one-grid");
+    const playerTwoGrid = document.querySelector("#player-two-grid");
+    const playerOneBoard = GameControl.playerOne.getPlayerBoard().getBoard();
+    const playerTwoBoard = GameControl.playerTwo.getPlayerBoard().getBoard();
 
-class GameDOM {
-  static playerOneGrid = document.querySelector("#player-one-grid");
-  static playerTwoGrid = document.querySelector("#player-two-grid");
+    playerOneGrid.innerHTML = "";
+    playerTwoGrid.innerHTML = "";
 
-  static refreshGameCells(PlayerObj) {
-    const gameboard = PlayerObj.getPlayerBoard().getBoard();
-    gameboard.forEach((row, rowIndex) => {
-      row.forEach((square, columnIndex) => {
-        const cell = document.createElement("div");
-        cell.classList.add("grid-cell");
-        cell.dataset.coord = rowIndex + "-" + columnIndex;
+    this.createGrid(playerOneBoard).forEach((square) => {
+      playerOneGrid.append(square);
+    });
+    this.createGrid(playerTwoBoard).forEach((square) => {
+      playerTwoGrid.appendChild(square);
+    });
+  }
 
-        if (square.isHit && square.shipPrecent) {
-          cell.textContent = "*";
-          cell.classList.add("ship-precent");
-        } else if (square.isHit) {
-          cell.textContent = "*";
-          cell.classList.add("no-ship");
+  static createGrid(playerBoard) {
+    const allSquares = [];
+    playerBoard.forEach((row, rowIndex) => {
+      row.forEach((cell, columnIndex) => {
+        const squareGrid = document.createElement("div");
+        squareGrid.classList.add("grid-cell");
+        squareGrid.dataset.coord = rowIndex + "-" + columnIndex;
+        if (cell.isHit) {
+          squareGrid.textContent = "X";
         }
-
-        const playerType = PlayerObj.getType();
-        playerType === "Human"
-          ? this.playerOneGrid.appendChild(cell)
-          : this.playerTwoGrid.appendChild(cell);
+        allSquares.push(squareGrid);
       });
+    });
+    return allSquares;
+  }
+
+  static GridEvents() {
+    const mainContent = document.querySelector("#main-content");
+
+    mainContent.addEventListener("click", (event) => {
+      const player = event.target.parentElement.id;
+      const dataCoord = event.target.dataset.coord;
+      let row, index;
+      switch (player) {
+        case "player-one-grid":
+          [row, index] = dataCoord.split("-");
+          GameControl.playerOne.getPlayerBoard().recieveAttack(row, index);
+          break;
+        case "player-two-grid":
+          [row, index] = dataCoord.split("-");
+          GameControl.playerTwo.getPlayerBoard().recieveAttack(row, index);
+          break;
+        default:
+          break;
+      }
+      GameDom.refresh();
     });
   }
 
   static setName(name) {
     const form = document.querySelector("#name-form");
 
-    const namePara = document.createElement("p");
-    namePara.classList.add("player-header");
-    namePara.classList.add("name-label");
-    namePara.style.fontSize = "1.5rem";
-    namePara.textContent = name;
-    form.replaceWith(namePara);
-  }
-
-  static gridEvents(player) {
-    const turn = player === "Human" ? this.playerOneGrid : this.playerTwoGrid;
-
-    turn.addEventListener(
-      "click",
-      (event) => {
-        const dataAtribute = event.target.dataset.coord.split("-");
-        const row = parseInt(dataAtribute[0]);
-        const column = parseInt(dataAtribute[1]);
-        player.getPlayerBoard().recieveAttack(row, column);
-      },
-      { once: true }
-    );
+    const nameP = document.createElement("p");
+    nameP.classList.add("player-header");
+    nameP.classList.add("name-label");
+    nameP.style.fontSize = "1.5rem";
+    nameP.textContent = name;
+    form.replaceWith(nameP);
   }
 }
 
-function startGame() {
-  const form = document.querySelector("#name-form");
-  const input = document.querySelector("#player-one-name");
+class GameControl {
+  static playerOne;
+  static playerTwo = new Player("Computer", "Robot");
+  static currentTurn;
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const name = input.value;
-    input.value = "";
-    GameDOM.setName(name);
-  });
+  static startGame() {
+    const form = document.querySelector("#name-form");
+    const input = document.querySelector("#player-one-name");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.playerOne = new Player("Human", name);
+      GameDom.setName(input.value);
+      GameDom.refresh();
+      GameDom.GridEvents();
+    });
+  }
 }
 
 addEventListener("DOMContentLoaded", () => {
-  GameDOM.refreshGameCells(PlayerTwo);
-  GameDOM.gridEvents(PlayerOne);
-  startGame();
+  GameControl.startGame();
 });

@@ -160,6 +160,5 @@ body {
 .grid-cell {
   display: grid;
   place-items: center;
-  height: 3rem;
-  width: 3rem;
+  border: 1px solid red;
 }
