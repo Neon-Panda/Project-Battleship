@@ -115,7 +115,9 @@ body {
   background-color: hsla(0, 0%, 95%, 0.5);
   backdrop-filter: blur(5px);
   border: none;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
+  padding: 0 1rem;
+  outline: none;
 }
 
 .player-content {
@@ -168,8 +170,10 @@ body {
 
 .ships {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
+  width: 30vw;
 }
 
 .player-ship {
