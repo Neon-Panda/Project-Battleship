@@ -49,15 +49,27 @@ class GameDom {
 
     mainContent.addEventListener("click", (event) => {
       const dataCoord = event.target.dataset.coord;
-      if (dataCoord) {
-        let [row, column] = dataCoord.split("-");
-        GameControl.toggleTurn
-          ? GameControl.attack("playerOne", row, column)
-          : GameControl.attack("playerTwo", row, column);
+      const currentPlayer = event.target.parentElement.id;
+      const turn = GameControl.currentTurn;
+      let row, column;
+      if (
+        dataCoord &&
+        currentPlayer === "player-one-grid" &&
+        turn === "playerOne"
+      ) {
+        [row, column] = dataCoord.split("-");
+        GameControl.attack("playerOne", row, column);
+        GameControl.turnToggle();
+      } else if (
+        dataCoord &&
+        currentPlayer === "player-two-grid" &&
+        turn === "playerTwo"
+      ) {
+        [row, column] = dataCoord.split("-");
+        GameControl.attack("playerTwo", row, column);
+        GameControl.turnToggle();
       }
-
       GameDom.refresh();
-      GameControl.turnToggle();
       GameControl.checkForWin();
     });
   }
@@ -117,6 +129,7 @@ class GameControl {
   static playerOne = new Player("Human", "name");
   static playerTwo = new Player("Computer", "Robot");
   static toggleTurn = false;
+  static currentTurn = "playerTwo";
   static directionBolean = false;
   static currentDirection;
 
@@ -135,6 +148,7 @@ class GameControl {
 
   static turnToggle() {
     this.toggleTurn = this.toggleTurn ? false : true;
+    this.currentTurn = this.toggleTurn === true ? "playerOne" : "playerTwo";
     return this.toggleTurn;
   }
 
