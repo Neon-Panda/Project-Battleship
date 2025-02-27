@@ -68,6 +68,10 @@ h6 {
   isolation: isolate;
 }
 
+:root {
+  --accent-color: hsla(325, 92%, 86%, 0.356);
+}
+
 body {
   background-color: darkgray;
   font-family: Quantico;
@@ -120,14 +124,19 @@ body {
   outline: none;
 }
 
+.input-name:hover {
+  background-color: hsla(0, 0%, 95%, 0.897);
+  box-shadow: 0px 0px 5px 1px;
+}
+
 .player-content {
   display: grid;
   grid-template-columns: 3rem auto;
   grid-template-rows: 3rem auto;
   width: 30vw;
   height: 30vw;
-  background-color: hsla(0, 0%, 33%, 0.342);
-  backdrop-filter: blur(3px);
+  background-color: var(--accent-color);
+  backdrop-filter: blur(10px);
   border-radius: 1rem;
   box-shadow: 3px 3px 12px -5px hsla(0, 0%, 1%, 0.747);
 }
@@ -204,7 +213,7 @@ body {
 .drag-n-drop {
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background-color: hsla(0, 0%, 33%, 0.342);
+  background-color: var(--accent-color);
   backdrop-filter: blur(3px);
 }
 
@@ -218,7 +227,7 @@ body {
   padding: 0.5rem;
   height: 8vh;
   border-radius: 0.5rem;
-  background-color: hsla(0, 0%, 33%, 0.342);
+  background-color: var(--accent-color);
   backdrop-filter: blur(3px);
 }
 
@@ -240,7 +249,7 @@ body {
   cursor: pointer;
   transform: scale(1.1, 1.1);
   background-color: white;
-  box-shadow: 0px 0px 10px 1px;
+  box-shadow: 0px 0px 3px 1px;
 }
 
 .hidden {
