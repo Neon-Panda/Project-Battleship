@@ -17,7 +17,15 @@ class GameDom {
     this.createGrid(playerTwoBoard, "Computer").forEach((square) => {
       playerTwoGrid.appendChild(square);
     });
+    GameDom.setTurnDom();
     GameDom.dragShips();
+  }
+
+  static setTurnDom() {
+    const turnText = document.querySelector("#turn-text");
+    const currentTurn = GameControl.currentTurn;
+    const text = currentTurn === "playerTwo" ? "Human" : "Computer";
+    turnText.textContent = text;
   }
 
   static createGrid(playerBoard, player) {
@@ -143,6 +151,8 @@ class GameControl {
         GameControl.playerOne.setName(name);
         GameDom.setName(name);
         GameDom.GridEvents();
+      } else {
+        alert("All ships must be placed.");
       }
     });
   }
