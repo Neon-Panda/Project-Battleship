@@ -1,11 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-<script defer src="main.js"></script></head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship Project</title>
+  <script defer src="main.js"></script></head>
+  <body>
+    <header class="title">Battleship!</header>
+    <section id="main-content" class="main-content">
+      <div class="player" id="player-one">
+        <form class="player-header" id="name-form">
+          <label class="name-label" for="player-one-name">Enter name:</label>
+          <input
+            type="text"
+            name="player-one-name"
+            id="player-one-name"
+            class="input-name"
+            required
+          />
+          <button class="btn">Start</button>
+        </form>
+        <div id="player-one-content" class="player-content">
+          <div class="player-columns">
+            <p class="column-letter">A</p>
+            <p class="column-letter">B</p>
+            <p class="column-letter">C</p>
+            <p class="column-letter">D</p>
+            <p class="column-letter">E</p>
+            <p class="column-letter">F</p>
+            <p class="column-letter">G</p>
+            <p class="column-letter">H</p>
+            <p class="column-letter">I</p>
+            <p class="column-letter">J</p>
+          </div>
+          <div class="player-rows">
+            <p class="row-number">1</p>
+            <p class="row-number">2</p>
+            <p class="row-number">3</p>
+            <p class="row-number">4</p>
+            <p class="row-number">5</p>
+            <p class="row-number">6</p>
+            <p class="row-number">7</p>
+            <p class="row-number">8</p>
+            <p class="row-number">9</p>
+            <p class="row-number">10</p>
+          </div>
+          <div id="player-one-grid" class="player-grid"></div>
+        </div>
+        <div class="ships-location">
+          <button id="direction-btn" class="btn">Horizontal</button>
+          <p class="drag-n-drop">Drag & Drop</p>
+          <div class="ships">
+            <div id="Carrier" class="player-ship" draggable="true" data-ship>Carrier</div>
+            <div id="Battleship" class="player-ship" draggable="true" data-ship>Battleship</div>
+            <div id="Cruiser" class="player-ship" draggable="true" data-ship>Cruiser</div>
+            <div id="Submarine" class="player-ship" draggable="true" data-ship>Submarine</div>
+            <div id="Destroyer" class="player-ship" draggable="true" data-ship>Destroyer</div>
+          </div>
+        </div>
+      </div>
+      <div class="turn-content">
+        <p class="turn-header">Current Turn</p>
+        <p id="turn-text" class="turn-text"></p>
+      </div>
+      <div class="player" id="player-two">
+        <div class="player-header">
+          <p class="name-label">Computer</p>
+        </div>
+        <div id="player-two-content" class="player-content">
+          <div class="player-columns">
+            <p class="column-letter">A</p>
+            <p class="column-letter">B</p>
+            <p class="column-letter">C</p>
+            <p class="column-letter">D</p>
+            <p class="column-letter">E</p>
+            <p class="column-letter">F</p>
+            <p class="column-letter">G</p>
+            <p class="column-letter">H</p>
+            <p class="column-letter">I</p>
+            <p class="column-letter">J</p>
+          </div>
+          <div class="player-rows">
+            <p class="row-number">1</p>
+            <p class="row-number">2</p>
+            <p class="row-number">3</p>
+            <p class="row-number">4</p>
+            <p class="row-number">5</p>
+            <p class="row-number">6</p>
+            <p class="row-number">7</p>
+            <p class="row-number">8</p>
+            <p class="row-number">9</p>
+            <p class="row-number">10</p>
+          </div>
+          <div id="player-two-grid" class="player-grid"></div>
+        </div>
+      </div>
+    </section>
+    <footer class="footer"></footer>
+  </body>
 </html>
