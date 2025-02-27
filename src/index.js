@@ -88,7 +88,6 @@ class GameDom {
   static directionButton() {
     const direcitonBtn = document.querySelector("#direction-btn");
     direcitonBtn.addEventListener("click", (event) => {
-      console.log("test");
       GameControl.directionToggle();
       direcitonBtn.innerText = GameControl.currentDirection;
     });
@@ -139,10 +138,12 @@ class GameControl {
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      const name = input.value;
-      GameControl.playerOne.setName(name);
-      GameDom.setName(name);
-      GameDom.GridEvents();
+      if (GameControl.getAllShipsUsed(this.playerOne)) {
+        const name = input.value;
+        GameControl.playerOne.setName(name);
+        GameDom.setName(name);
+        GameDom.GridEvents();
+      }
     });
   }
 
@@ -183,6 +184,14 @@ class GameControl {
     if (playerTwoSunk) alert("Player One has Won!");
   }
 
+  static getAllShipsUsed(playerObj) {
+    const computerBoard = playerObj.getPlayerBoard();
+    const shipsAvaliable = computerBoard
+      .getShips()
+      .every((ship) => ship.avalible === false);
+    return shipsAvaliable;
+  }
+
   static computerRandomPlace() {
     function ZeroToNine() {
       return Math.floor(Math.random() * 10);
@@ -196,9 +205,7 @@ class GameControl {
     const computerBoard = this.playerTwo.getPlayerBoard();
     let shipsAvaliable;
     while (!shipsAvaliable) {
-      shipsAvaliable = computerBoard
-        .getShips()
-        .every((ship) => ship.avalible === false);
+      shipsAvaliable = GameControl.getAllShipsUsed(this.playerTwo);
       computerBoard.placeShip(
         "Carrier",
         ZeroToNine(),
