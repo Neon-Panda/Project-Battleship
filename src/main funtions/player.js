@@ -20,6 +20,10 @@ export class Player {
     return this.#playerName;
   }
 
+  setName(name) {
+    this.#playerName = name;
+  }
+
   getType() {
     return this.#playerType;
   }

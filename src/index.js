@@ -114,7 +114,7 @@ class GameDom {
 }
 
 class GameControl {
-  static playerOne;
+  static playerOne = new Player("Human", "name");
   static playerTwo = new Player("Computer", "Robot");
   static toggleTurn = false;
   static directionBolean = false;
@@ -126,11 +126,10 @@ class GameControl {
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      this.playerOne = new Player("Human", name);
-      GameDom.setName(input.value);
-      GameDom.refresh();
+      const name = input.value;
+      GameControl.playerOne.setName(name);
+      GameDom.setName(name);
       GameDom.GridEvents();
-      GameDom.dragShips();
     });
   }
 
@@ -224,4 +223,6 @@ addEventListener("DOMContentLoaded", () => {
   GameControl.startGame();
   GameControl.computerRandomPlace();
   GameDom.directionButton();
+  GameDom.refresh();
+  GameDom.dragShips();
 });
