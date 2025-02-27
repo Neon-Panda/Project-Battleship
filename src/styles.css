@@ -112,7 +112,6 @@ body {
 }
 
 .input-name {
-  background-color: inherit;
   background-color: hsla(0, 0%, 95%, 0.5);
   backdrop-filter: blur(5px);
   border: none;
@@ -160,7 +159,11 @@ body {
 .grid-cell {
   display: grid;
   place-items: center;
-  border: 1px solid red;
+  border: 1px dotted black;
+}
+
+.dragged-over {
+  background-color: hsla(0, 0%, 100%, 0.26);
 }
 
 .ships {
@@ -171,20 +174,30 @@ body {
 
 .player-ship {
   cursor: pointer;
+  background-color: hsla(0, 0%, 95%, 0.5);
+  padding: 0 0.3rem;
+  box-shadow: 3px 3px 10px -3px hsla(0, 0%, 1%, 0.849);
 }
 
 .square-hit {
-  background-color: red;
+  background-color: hsla(0, 4%, 89%, 0.185);
+  border-radius: 1rem;
 }
 
 .ships-location {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .square-ship {
-  background-color: purple;
+  background-color: hsla(0, 96%, 51%, 0.185);
+  border-radius: 1rem;
 }
 
-.btn-direction {
+.btn {
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
 }

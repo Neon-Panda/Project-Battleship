@@ -45,7 +45,7 @@ class GameDom {
           squareGrid.classList.add("square-ship");
           squareGrid.dataset.squareHit = true;
         } else if (cell.isHit) {
-          squareGrid.textContent = "X";
+          squareGrid.textContent = "miss";
           squareGrid.classList.add("square-hit");
           squareGrid.dataset.squareHit = true;
         }
@@ -63,19 +63,11 @@ class GameDom {
       const currentPlayer = event.target.parentElement.id;
       const turn = GameControl.currentTurn;
       let row, column;
-      if (
-        dataCoord &&
-        currentPlayer === "player-one-grid" &&
-        turn === "playerOne"
-      ) {
+      if (dataCoord && currentPlayer === "player-one-grid" && turn === "playerOne") {
         [row, column] = dataCoord.split("-");
         GameControl.attack("playerOne", row, column);
         GameControl.turnToggle();
-      } else if (
-        dataCoord &&
-        currentPlayer === "player-two-grid" &&
-        turn === "playerTwo"
-      ) {
+      } else if (dataCoord && currentPlayer === "player-two-grid" && turn === "playerTwo") {
         [row, column] = dataCoord.split("-");
         GameControl.attack("playerTwo", row, column);
         GameControl.computerAttack();
@@ -107,27 +99,24 @@ class GameDom {
 
   static dragShips() {
     const ships = document.querySelectorAll("[data-ship]");
-    const playerOneGrid = document.querySelectorAll(
-      "#player-one-grid > #grid-cell"
-    );
+    const playerOneGrid = document.querySelectorAll("#player-one-grid > #grid-cell");
     for (let ship of ships) {
       ship.addEventListener("dragstart", (event) => {
         const shipName = event.target.id;
         playerOneGrid.forEach((square) => {
           square.addEventListener("dragover", (event) => {
             event.preventDefault();
+            event.target.classList.add("dragged-over");
+          });
+          square.addEventListener("dragleave", (event) => {
+            event.target.classList.remove("dragged-over");
           });
           square.addEventListener("drop", (event) => {
             const square = event.target.dataset.coord;
             let [row, column] = event.target.dataset.coord.split("-");
             GameControl.playerOne
               .getPlayerBoard()
-              .placeShip(
-                shipName,
-                parseInt(row),
-                parseInt(column),
-                GameControl.currentDirection
-              );
+              .placeShip(shipName, parseInt(row), parseInt(column), GameControl.currentDirection);
             GameDom.refresh();
           });
         });
@@ -152,8 +141,7 @@ class GameControl {
       event.preventDefault();
       console.log();
       console.log();
-      // remove not !
-      if (!GameControl.getAllShipsUsed(this.playerOne)) {
+      if (GameControl.getAllShipsUsed(this.playerOne)) {
         const name = input.value;
         GameControl.playerOne.setName(name);
         GameDom.setName(name);
@@ -172,8 +160,7 @@ class GameControl {
 
   static directionToggle() {
     this.directionBolean = this.directionBolean ? false : true;
-    this.currentDirection =
-      this.directionBolean === false ? "Horizontal" : "Vertical";
+    this.currentDirection = this.directionBolean === false ? "Horizontal" : "Vertical";
   }
 
   static attack(player, row, column) {
@@ -192,7 +179,7 @@ class GameControl {
   static computerAttack() {
     const playerOneBoard = this.playerOne.getPlayerBoard();
     const targets = document.querySelectorAll(
-      '#player-one-grid > #grid-cell[data-square-hit="false"]'
+      '#player-one-grid > #grid-cell[data-square-hit="false"]',
     );
     const randomIndex = Math.floor(Math.random() * targets.length);
     let [row, column] = targets[randomIndex].dataset.coord.split("-");
@@ -201,22 +188,16 @@ class GameControl {
   }
 
   static checkForWin() {
-    const playerOneSunk = GameControl.playerOne
-      .getPlayerBoard()
-      .checkIfAllSunk();
-    const playerTwoSunk = GameControl.playerTwo
-      .getPlayerBoard()
-      .checkIfAllSunk();
+    const playerOneSunk = GameControl.playerOne.getPlayerBoard().checkIfAllSunk();
+    const playerTwoSunk = GameControl.playerTwo.getPlayerBoard().checkIfAllSunk();
 
-    if (playerOneSunk) alert("Player Two has Won!");
-    if (playerTwoSunk) alert("Player One has Won!");
+    if (playerOneSunk) alert("Human player has Won!");
+    if (playerTwoSunk) alert("Computer player has Won!");
   }
 
   static getAllShipsUsed(playerObj) {
     const computerBoard = playerObj.getPlayerBoard();
-    const shipsAvaliable = computerBoard
-      .getShips()
-      .every((ship) => ship.avalible === false);
+    const shipsAvaliable = computerBoard.getShips().every((ship) => ship.avalible === false);
     return shipsAvaliable;
   }
 
@@ -234,36 +215,11 @@ class GameControl {
     let shipsAvaliable;
     while (!shipsAvaliable) {
       shipsAvaliable = GameControl.getAllShipsUsed(this.playerTwo);
-      computerBoard.placeShip(
-        "Carrier",
-        ZeroToNine(),
-        ZeroToNine(),
-        direction()
-      );
-      computerBoard.placeShip(
-        "Battleship",
-        ZeroToNine(),
-        ZeroToNine(),
-        direction()
-      );
-      computerBoard.placeShip(
-        "Cruiser",
-        ZeroToNine(),
-        ZeroToNine(),
-        direction()
-      );
-      computerBoard.placeShip(
-        "Submarine",
-        ZeroToNine(),
-        ZeroToNine(),
-        direction()
-      );
-      computerBoard.placeShip(
-        "Destroyer",
-        ZeroToNine(),
-        ZeroToNine(),
-        direction()
-      );
+      computerBoard.placeShip("Carrier", ZeroToNine(), ZeroToNine(), direction());
+      computerBoard.placeShip("Battleship", ZeroToNine(), ZeroToNine(), direction());
+      computerBoard.placeShip("Cruiser", ZeroToNine(), ZeroToNine(), direction());
+      computerBoard.placeShip("Submarine", ZeroToNine(), ZeroToNine(), direction());
+      computerBoard.placeShip("Destroyer", ZeroToNine(), ZeroToNine(), direction());
     }
   }
 }
