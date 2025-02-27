@@ -102,7 +102,7 @@ class GameDom {
     const playerOneGrid = document.querySelectorAll("#player-one-grid > #grid-cell");
     for (let ship of ships) {
       ship.addEventListener("dragstart", (event) => {
-        const shipName = event.target.id;
+        const shipElem = event.target;
         playerOneGrid.forEach((square) => {
           square.addEventListener("dragover", (event) => {
             event.preventDefault();
@@ -116,7 +116,13 @@ class GameDom {
             let [row, column] = event.target.dataset.coord.split("-");
             GameControl.playerOne
               .getPlayerBoard()
-              .placeShip(shipName, parseInt(row), parseInt(column), GameControl.currentDirection);
+              .placeShip(
+                shipElem.id,
+                parseInt(row),
+                parseInt(column),
+                GameControl.currentDirection,
+              );
+            shipElem.classList.add("hidden");
             GameDom.refresh();
           });
         });
