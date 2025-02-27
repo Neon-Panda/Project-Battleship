@@ -36,15 +36,18 @@ class GameDom {
         squareGrid.classList.add("grid-cell");
         squareGrid.id = "grid-cell";
         squareGrid.dataset.coord = rowIndex + "-" + columnIndex;
+        squareGrid.dataset.squareHit = false;
         if (player === "Human" && cell.shipPrecent) {
           squareGrid.innerText = "O";
         }
         if (cell.isHit && cell.shipPrecent) {
           squareGrid.textContent = "HIT";
           squareGrid.classList.add("square-ship");
+          squareGrid.dataset.squareHit = true;
         } else if (cell.isHit) {
           squareGrid.textContent = "X";
           squareGrid.classList.add("square-hit");
+          squareGrid.dataset.squareHit = true;
         }
         allSquares.push(squareGrid);
       });
@@ -75,6 +78,7 @@ class GameDom {
       ) {
         [row, column] = dataCoord.split("-");
         GameControl.attack("playerTwo", row, column);
+        GameControl.computerAttack();
         GameControl.turnToggle();
       }
       GameDom.refresh();
@@ -146,7 +150,10 @@ class GameControl {
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      if (GameControl.getAllShipsUsed(this.playerOne)) {
+      console.log();
+      console.log();
+      // remove not !
+      if (!GameControl.getAllShipsUsed(this.playerOne)) {
         const name = input.value;
         GameControl.playerOne.setName(name);
         GameDom.setName(name);
@@ -180,6 +187,17 @@ class GameControl {
       default:
         break;
     }
+  }
+
+  static computerAttack() {
+    const playerOneBoard = this.playerOne.getPlayerBoard();
+    const targets = document.querySelectorAll(
+      '#player-one-grid > #grid-cell[data-square-hit="false"]'
+    );
+    const randomIndex = Math.floor(Math.random() * targets.length);
+    let [row, column] = targets[randomIndex].dataset.coord.split("-");
+    playerOneBoard.recieveAttack(row, column);
+    GameControl.turnToggle();
   }
 
   static checkForWin() {
@@ -255,5 +273,4 @@ addEventListener("DOMContentLoaded", () => {
   GameControl.computerRandomPlace();
   GameDom.directionButton();
   GameDom.refresh();
-  GameDom.dragShips();
 });
