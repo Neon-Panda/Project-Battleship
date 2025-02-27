@@ -145,8 +145,6 @@ class GameControl {
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      console.log();
-      console.log();
       if (GameControl.getAllShipsUsed(this.playerOne)) {
         const name = input.value;
         GameControl.playerOne.setName(name);
@@ -197,8 +195,9 @@ class GameControl {
     const playerOneSunk = GameControl.playerOne.getPlayerBoard().checkIfAllSunk();
     const playerTwoSunk = GameControl.playerTwo.getPlayerBoard().checkIfAllSunk();
 
-    if (playerOneSunk) alert("Human player has Won!");
-    if (playerTwoSunk) alert("Computer player has Won!");
+    const playerOneName = GameControl.playerOne.getName();
+    if (playerOneSunk) alert("Computer player has Won!");
+    if (playerTwoSunk) alert(`${playerOneName} has Won!`);
   }
 
   static getAllShipsUsed(playerObj) {
