@@ -63,27 +63,18 @@ export class Gameboard {
   }
 
   placeShip(shipName, row, column, direction = "horizontal") {
-    const seletectedShip = this.#boardShips.find(
-      (element) => element.name === shipName
-    );
+    const seletectedShip = this.#boardShips.find((element) => element.name === shipName);
     const shipLength = seletectedShip.shipObj.getLength();
-    const correctPlacement = this.correctRowColumn(
-      shipLength,
-      row,
-      column,
-      direction
-    );
+    const correctPlacement = this.correctRowColumn(shipLength, row, column, direction);
     correctPlacement.direction === "horizontal"
       ? (column = correctPlacement.value)
       : (row = correctPlacement.value);
-    const placementValid = this.placementValid(
-      seletectedShip.shipObj,
-      row,
-      column,
-      direction
-    );
+    const placementValid = this.placementValid(seletectedShip.shipObj, row, column, direction);
     if (placementValid && seletectedShip.avalible) {
       for (let i = 0; i < shipLength; i++) {
+        // console.log(row);
+        // console.log(column);
+        // console.log(seletectedShip.shipObj);
         this.#board[row][column].shipPrecent = seletectedShip.shipObj;
         direction === "horizontal" ? column++ : row++;
       }

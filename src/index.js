@@ -137,7 +137,7 @@ class GameControl {
   static toggleTurn = false;
   static currentTurn = "playerTwo";
   static directionBolean = false;
-  static currentDirection;
+  static currentDirection = "horizontal";
 
   static startGame() {
     const form = document.querySelector("#name-form");
@@ -164,7 +164,7 @@ class GameControl {
 
   static directionToggle() {
     this.directionBolean = this.directionBolean ? false : true;
-    this.currentDirection = this.directionBolean === false ? "Horizontal" : "Vertical";
+    this.currentDirection = this.directionBolean === false ? "horizontal" : "vertical";
   }
 
   static attack(player, row, column) {
